@@ -7,11 +7,11 @@ export default function Note() {
   const { id } = useParams();
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [isEditing, setIsEditing] = useState(!id); // If no id, it's a new note
+  const [isEditing, setIsEditing] = useState(!id); 
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:3000/api/note/${id}`)
+      fetch(`https://note-your-day.onrender.com/api/note/${id}`)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -31,15 +31,14 @@ export default function Note() {
       return;
     }
     if (id) {
-      // Update existing note
-      await fetch(`http://localhost:3000/api/note/${id}`, {
+      await fetch(`https://note-your-day.onrender.com/api/note/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, message }),
       });
     } else {
       // Create new note
-      await fetch('http://localhost:3000/api/note', {
+      await fetch('https://note-your-day.onrender.com/api/note', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, message, userName }),
@@ -50,7 +49,7 @@ export default function Note() {
 
   const handleDelete = async () => {
     if (id && window.confirm('Are you sure you want to delete this note?')) {
-      await fetch(`http://localhost:3000/api/note/${id}`, { method: 'DELETE' });
+      await fetch(`https://note-your-day.onrender.com/api/note/${id}`, { method: 'DELETE' });
       navigate('/');
     }
   };

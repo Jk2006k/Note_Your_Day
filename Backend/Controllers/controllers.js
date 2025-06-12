@@ -19,7 +19,6 @@ const createNote= async (req,res)=>{
 const getNote=async(req,res)=>{
     try{
         const {userName}=req.query
-        console.log(userName)
         if(!userName) return res.status(400).json({success:false,message:'User name is required'})
         const notes=await User.find({userName})
         res.json({success:true,notes})
