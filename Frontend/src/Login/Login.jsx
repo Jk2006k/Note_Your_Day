@@ -36,7 +36,7 @@ export default function Login(){
                     onChange={e=>setName(e.target.value)}/>
                 </div>
                 <div className="email">
-                    <input type="text" placeholder='Enter your Name' className='email' 
+                    <input type="text" placeholder='Enter your Email' className='email' 
                     value={email}
                     onChange={e=>setEmail(e.target.value)}/>
                 </div>
