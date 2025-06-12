@@ -1,0 +1,79 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(to right, #f8f9fa, #e0e7ff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.note-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+.note-container input[type="text"],
+.note-container textarea {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.note-container input[type="text"]:focus,
+.note-container textarea:focus {
+  border-color: #6c63ff;
+}
+
+.note-container textarea {
+  min-height: 200px;
+  resize: none;
+}
+
+.note-container div {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.note-container button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.note-container button:nth-child(1) {
+  background-color: #6c63ff;
+  color: white;
+}
+
+.note-container button:nth-child(2) {
+  background-color: #e0e0ff;
+  color: #3f3fbb;
+}
+
+.note-container button:nth-child(3) {
+  background-color: #ffe0e0;
+  color: #bb3f3f;
+}
+
+.note-container button:hover {
+  opacity: 0.9;
+}
