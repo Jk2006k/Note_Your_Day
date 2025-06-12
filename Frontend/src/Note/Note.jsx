@@ -69,7 +69,7 @@ export default function Note() {
 
   return (
     <div className="note-container">
-      <h1>Note Your Day</h1>
+      <h1 className='thala'>Note Your Day</h1>
       <input
         type="text"
         placeholder="Title"

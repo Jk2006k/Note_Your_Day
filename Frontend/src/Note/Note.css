@@ -2,9 +2,13 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: linear-gradient(to right, #f8f9fa, #e0e7ff);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.thala{
+  color: black;
 }
 
 .note-container {
