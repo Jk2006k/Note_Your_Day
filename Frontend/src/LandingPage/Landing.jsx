@@ -23,7 +23,7 @@ export default function Landing() {
         setNotes([])
         return
       }
-      const res=await fetch(`http://localhost:3000/api/getnote?userName=${encodeURIComponent(userName)}`)
+      const res=await fetch(`https://note-auni.onrender.com/api/getnote?userName=${encodeURIComponent(userName)}`)
       const data=await res.json()
       if(data.success && data.notes){
         setNotes(data.notes)
