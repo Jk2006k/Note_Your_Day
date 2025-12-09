@@ -1,184 +1,727 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
   margin: 0;
   padding: 0;
-}
-.container {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 40px;
   box-sizing: border-box;
-  background: linear-gradient(to bottom,#5b6e98,#423d3d);
-
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
 
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  position: relative;
+}
+
+/* Animated background grid */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: gridMove 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+/* Floating particles */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  animation: particleDrift 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes particleDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(30px, -30px) scale(1.1); opacity: 1; }
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  position: relative;
+  z-index: 1;
+  animation: containerFadeIn 0.8s ease-out;
+}
+
+@keyframes containerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header Section */
 .heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  margin-bottom: 60px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  animation: headerSlideIn 0.6s ease-out;
+}
+
+@keyframes headerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated line under header */
+.heading::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.6) 50%, 
+    transparent 100%);
+  animation: lineExpand 2s ease-out 0.5s forwards;
+}
+
+@keyframes lineExpand {
+  to { width: 100%; }
 }
 
 .heading h1 {
-  font-size: 2.5rem;
-  color: #343a40;
+  font-size: 56px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -2px;
+  position: relative;
+  text-shadow: 
+    0 0 40px rgba(255, 255, 255, 0.3),
+    0 0 80px rgba(255, 255, 255, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { 
+    text-shadow: 
+      0 0 40px rgba(255, 255, 255, 0.3),
+      0 0 80px rgba(255, 255, 255, 0.2),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  50% { 
+    text-shadow: 
+      0 0 60px rgba(255, 255, 255, 0.5),
+      0 0 100px rgba(255, 255, 255, 0.3),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Subtle shimmer overlay on title */
+.heading h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent);
+  animation: titleShimmer 3s ease-in-out infinite;
+}
+
+@keyframes titleShimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 200%; }
+}
+
+.heading > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: userInfoSlide 0.6s ease-out 0.2s backwards;
+}
+
+@keyframes userInfoSlide {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .welcome {
-  font-size: 1.2rem;
-  margin-right: 1rem;
-  color: #111111;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  position: relative;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  animation: welcomeFade 0.6s ease-out 0.4s backwards;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+@keyframes welcomeFade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Welcome text glow effect */
+.welcome::before {
+  content: '';
   position: absolute;
-  top: 70px;
-  right: 140px;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.2), 
+    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.2));
+  border-radius: 12px;
+  z-index: -1;
+  opacity: 0;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
 }
 
 .but {
-  background-color: #0d6efd;
-  color: white;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
   border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+  color: #0a0a0a;
+  box-shadow: 
+    0 4px 15px rgba(255, 255, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.but::before {
+  content: '';
   position: absolute;
-  top: 80px;
-  right: 40px;
-}
-
-button:hover {
-  background-color: #0b5ed7;
-}
-
-/* Create Note Box */
-.note-box {
-  width: 70px;
-  height: 70px;
-  background-color: #fff;
-  border: 2px dashed #6c757d;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.but:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.but:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 25px rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.but:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Create Note Section */
+.note-box {
+  width: 140px;
+  height: 140px;
+  background: rgba(40, 40, 40, 0.8);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 1rem auto;
+  align-items: center;
+  margin: 0 auto;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: noteBoxFloat 3s ease-in-out infinite, noteBoxAppear 0.8s ease-out 0.3s backwards;
+  overflow: hidden;
+}
+
+@keyframes noteBoxAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes noteBoxFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+/* Rotating border effect */
+.note-box::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.4), 
+    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.4));
+  border-radius: 24px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  animation: rotateBorder 3s linear infinite;
+}
+
+@keyframes rotateBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.note-box:hover::before {
+  opacity: 1;
 }
 
 .note-box:hover {
-  background-color: #e2e6ea;
-  transform: scale(1.05);
+  transform: translateY(-8px) scale(1.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(50, 50, 50, 0.9);
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.6),
+    0 0 0 8px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.note-box:active {
+  transform: translateY(-4px) scale(1.02);
 }
 
 .pen {
-  color: #495057;
-  width: 28px;
-  height: 28px;
+  width: 56px;
+  height: 56px;
+  color: #ffffff;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
+  animation: penBounce 2s ease-in-out infinite;
 }
 
-/* Subtitle */
+@keyframes penBounce {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.note-box:hover .pen {
+  transform: rotate(15deg) scale(1.15);
+  filter: drop-shadow(0 6px 16px rgba(255, 255, 255, 0.5));
+}
+
 .text {
   text-align: center;
-  font-size: 1.1rem;
-  color: #6c757d;
-  margin-bottom: 2rem;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 13px;
+  animation: textFade 0.8s ease-out 0.5s backwards;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Notes Grid */
 .notegrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+  animation: gridFadeIn 0.8s ease-out 0.6s backwards;
 }
 
-/* Note Card */
+@keyframes gridFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .note-card {
-  background-color: #ffffff;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(40, 40, 40, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  animation: cardPopIn 0.5s ease-out backwards;
+  animation-delay: calc(var(--card-index, 0) * 0.05s);
+}
+
+@keyframes cardPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Staggered animation for cards */
+.note-card:nth-child(1) { --card-index: 1; }
+.note-card:nth-child(2) { --card-index: 2; }
+.note-card:nth-child(3) { --card-index: 3; }
+.note-card:nth-child(4) { --card-index: 4; }
+.note-card:nth-child(5) { --card-index: 5; }
+.note-card:nth-child(6) { --card-index: 6; }
+.note-card:nth-child(7) { --card-index: 7; }
+.note-card:nth-child(8) { --card-index: 8; }
+.note-card:nth-child(9) { --card-index: 9; }
+.note-card:nth-child(10) { --card-index: 10; }
+
+/* Shimmer effect on cards */
+.note-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.08), 
+    transparent);
+  transition: left 0.5s;
+}
+
+.note-card:hover::before {
+  left: 100%;
 }
 
 .note-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(50, 50, 50, 0.9);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.note-card:active {
+  transform: translateY(-4px) scale(1);
 }
 
 .note-file-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 48px;
+  margin-bottom: 16px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: grayscale(10%) drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.05); }
+}
+
+.note-card:hover .note-file-icon {
+  transform: scale(1.15) rotate(5deg);
+  filter: grayscale(0%) drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
 }
 
 .note-title {
-  font-size: 1rem;
-  color: #212529;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f0f0f0;
+  text-align: center;
   word-wrap: break-word;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.note-card:hover .note-title {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
 
-@media (max-width: 768px) {
-  .heading {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+/* Gradient orbs floating in background */
+@keyframes floatingOrb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(150px, -100px) scale(1.2); }
+}
+
+@keyframes floatingOrb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-150px, 100px) scale(1.1); }
+}
+
+.container::before {
+  content: '';
+  position: fixed;
+  top: 20%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatingOrb1 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container::after {
+  content: '';
+  position: fixed;
+  bottom: 20%;
+  left: 5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatingOrb2 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Empty state styling */
+.notegrid:empty::after {
+  content: 'No notes yet. Create your first note!';
+  display: block;
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  animation: emptyStatePulse 2s ease-in-out infinite;
+}
+
+@keyframes emptyStatePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 50px 30px;
   }
 
   .heading h1 {
-    font-size: 2rem;
-    text-align: center;
+    font-size: 48px;
+  }
+
+  .notegrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 40px 24px;
+  }
+
+  .heading {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+
+  .heading h1 {
+    font-size: 40px;
+  }
+
+  .heading > div {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
 
   .welcome {
-    position: static;
-    margin-top: 1rem;
+    width: 100%;
     text-align: center;
   }
 
   .but {
-    position: static;
-    margin-top: 0.5rem;
-  }
-
-  .notegrid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    width: 100%;
   }
 
   .note-box {
-    width: 60px;
-    height: 60px;
+    width: 120px;
+    height: 120px;
   }
 
   .pen {
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .notegrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .note-card {
+    padding: 24px 20px;
+  }
+
+  .note-file-icon {
+    font-size: 40px;
+  }
+
+  .note-title {
+    font-size: 15px;
   }
 }
 
 @media (max-width: 480px) {
   .heading h1 {
-    font-size: 1.8rem;
+    font-size: 32px;
+  }
+
+  .note-box {
+    width: 100px;
+    height: 100px;
+  }
+
+  .pen {
+    width: 40px;
+    height: 40px;
   }
 
   .text {
-    font-size: 1rem;
+    font-size: 12px;
   }
 
-  .note-title {
-    font-size: 0.9rem;
+  .notegrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .note-card {
+    padding: 20px 16px;
   }
 
   .note-file-icon {
-    font-size: 1.5rem;
+    font-size: 36px;
+  }
+
+  .note-title {
+    font-size: 14px;
   }
 }
 
+/* High performance mode - reduce animations on lower-end devices */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

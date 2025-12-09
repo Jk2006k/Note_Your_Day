@@ -1,82 +1,435 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: linear-gradient(to right, #f8f9fa, #e0e7ff);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-.thala{
-  color: black;
+
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
 }
 
 .note-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-
+  gap: 30px;
+  position: relative;
+  z-index: 1;
+  animation: containerFadeIn 0.8s ease-out;
 }
 
-.note-container input[type="text"],
-.note-container textarea {
+@keyframes containerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.note-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 20%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(255, 255, 255, 0.3) 80%, 
+    transparent 100%);
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.3; width: 60%; }
+  50% { opacity: 1; width: 80%; }
+}
+
+.thala {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 50%, #ffffff 100%);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  letter-spacing: -1px;
+  position: relative;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+  /* 👇 REMOVED ALL ANIMATIONS */
+  animation: none;
+}
+
+.thala::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  border-radius: 2px;
+  /* 👇 REMOVED UNDERLINE ANIMATION */
+  animation: none;
+}
+
+
+@keyframes titleShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes underlineExpand {
+  0%, 100% { width: 100px; opacity: 0.5; }
+  50% { width: 200px; opacity: 1; }
+}
+
+input[type="text"],
+textarea {
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  background: rgba(26, 26, 26, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px 24px;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: fieldSlideIn 0.6s ease-out backwards;
+}
+
+input[type="text"] {
+  animation-delay: 0.2s;
+}
+
+textarea {
+  animation-delay: 0.3s;
+}
+
+@keyframes fieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 300;
+}
+
+input[type="text"]:focus,
+textarea:focus {
   outline: none;
-  transition: border 0.3s;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(30, 30, 30, 0.8);
+  box-shadow: 
+    0 0 0 4px rgba(255, 255, 255, 0.05),
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
-.note-container input[type="text"]:focus,
-.note-container textarea:focus {
-  border-color: #6c63ff;
+input[type="text"]:disabled,
+textarea:disabled {
+  background: rgba(20, 20, 20, 0.6);
+  border-color: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
-.note-container textarea {
-  min-height: 200px;
-  resize: none;
+textarea {
+  min-height: 400px;
+  resize: vertical;
+  line-height: 1.7;
 }
 
-.note-container div {
+/* Animated focus glow */
+input[type="text"]:focus::before,
+textarea:focus::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.05), 
+    rgba(255, 255, 255, 0.1));
+  border-radius: 16px;
+  z-index: -1;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Button container */
+.note-container > div {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   flex-wrap: wrap;
-  justify-content: center;
+  animation: buttonGroupSlideIn 0.6s ease-out 0.4s backwards;
 }
 
-.note-container button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
+@keyframes buttonGroupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button {
+  padding: 14px 32px;
+  font-size: 15px;
   font-weight: 600;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 13px;
 }
 
-.note-container button:nth-child(1) {
-  background-color: #6c63ff;
-  color: white;
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
 }
 
-.note-container button:nth-child(2) {
-  background-color: #e0e0ff;
-  color: #3f3fbb;
+button:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
-.note-container button:nth-child(3) {
-  background-color: #ffe0e0;
-  color: #bb3f3f;
+button:active {
+  transform: scale(0.96);
 }
 
-.note-container button:hover {
-  opacity: 0.9;
+/* Primary button (Save/Edit) */
+button:not([style*="color"]) {
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+  color: #0a0a0a;
+  box-shadow: 
+    0 4px 15px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+button:not([style*="color"])::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+button:not([style*="color"]):hover {
+  box-shadow: 
+    0 6px 25px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+button:not([style*="color"]):hover::after {
+  opacity: 1;
+}
+
+/* Share button (blue) */
+button[style*="blue"] {
+  background: linear-gradient(135deg, rgba(100, 150, 255, 0.15) 0%, rgba(80, 130, 255, 0.1) 100%);
+  color: #6b9aff !important;
+  border: 2px solid rgba(107, 154, 255, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(107, 154, 255, 0.15),
+    inset 0 1px 0 rgba(107, 154, 255, 0.1);
+}
+
+button[style*="blue"]:hover {
+  background: linear-gradient(135deg, rgba(100, 150, 255, 0.25) 0%, rgba(80, 130, 255, 0.15) 100%);
+  border-color: rgba(107, 154, 255, 0.5);
+  box-shadow: 
+    0 6px 25px rgba(107, 154, 255, 0.25),
+    inset 0 1px 0 rgba(107, 154, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Delete button (red) */
+button[style*="red"] {
+  background: linear-gradient(135deg, rgba(255, 80, 80, 0.15) 0%, rgba(255, 60, 60, 0.1) 100%);
+  color: #ff6b6b !important;
+  border: 2px solid rgba(255, 107, 107, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(255, 107, 107, 0.15),
+    inset 0 1px 0 rgba(255, 107, 107, 0.1);
+}
+
+button[style*="red"]:hover {
+  background: linear-gradient(135deg, rgba(255, 80, 80, 0.25) 0%, rgba(255, 60, 60, 0.15) 100%);
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 
+    0 6px 25px rgba(255, 107, 107, 0.25),
+    inset 0 1px 0 rgba(255, 107, 107, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Ripple effect on click */
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+button:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s ease-out;
+}
+
+/* Scrollbar styling */
+textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Floating orbs animation */
+@keyframes floatingOrb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(100px, -50px) scale(1.1); }
+  66% { transform: translate(-50px, 100px) scale(0.9); }
+}
+
+@keyframes floatingOrb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-80px, 80px) scale(0.9); }
+  66% { transform: translate(120px, -30px) scale(1.1); }
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 10%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatingOrb1 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .note-container {
+    padding: 40px 20px;
+    gap: 20px;
+  }
+
+  .thala {
+    font-size: 36px;
+  }
+
+  input[type="text"],
+  textarea {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+
+  textarea {
+    min-height: 300px;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 12px;
+  }
+
+  .note-container > div {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .thala {
+    font-size: 28px;
+  }
+
+  .note-container > div {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
 }

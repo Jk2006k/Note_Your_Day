@@ -3,15 +3,15 @@ import './Note.css'
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Note() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [isEditing, setIsEditing] = useState(!id); 
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const [title, setTitle] = useState('')
+  const [message, setMessage] = useState('')
+  const [isEditing, setIsEditing] = useState(!id) 
 
   useEffect(() => {
     if (id) {
-      fetch(`https://note-your-day.onrender.com/api/note/${id}`)
+      fetch(`http://localhost:3000/api/note/${id}`)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -31,28 +31,27 @@ export default function Note() {
       return;
     }
     if (id) {
-      await fetch(`https://note-your-day.onrender.com/api/note/${id}`, {
+      await fetch(`http://localhost:3000/api/note/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, message }),
-      });
+      })
     } else {
-      // Create new note
-      await fetch('https://note-your-day.onrender.com/api/note', {
+      await fetch('http://localhost:3000/api/note', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, message, userName }),
-      });
+      })
     }
     navigate('/');
-  };
-
+  }
+  
   const handleDelete = async () => {
     if (id && window.confirm('Are you sure you want to delete this note?')) {
-      await fetch(`https://note-your-day.onrender.com/api/note/${id}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3000/api/note/${id}`, { method: 'DELETE' });
       navigate('/');
     }
-  };
+  }
 
   const handleShare = () => {
     if (id) {
@@ -63,9 +62,9 @@ export default function Note() {
         })
         .catch(() => {
           alert('Failed to copy link.');
-        });
+        })
     }
-  };
+  }
 
   return (
     <div className="note-container">
@@ -102,5 +101,5 @@ export default function Note() {
         )}
       </div>
     </div>
-  );
+  )
 }

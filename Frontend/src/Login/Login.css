@@ -1,80 +1,397 @@
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #8e9eab, #eef2f3);
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Login page specific styles - won't affect other pages */
 .container-login {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Animated background grid - only for login page */
+.container-login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  padding: 20px;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: gridMove 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+/* Floating particles background */
+.container-login::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  animation: particleDrift 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes particleDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(30px, -30px) scale(1.1); opacity: 1; }
+}
+
+/* Login heading */
 .container-login h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 2rem;
+  font-size: 56px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -2px;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 
+    0 0 40px rgba(255, 255, 255, 0.3),
+    0 0 80px rgba(255, 255, 255, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: titleFadeIn 0.8s ease-out, titleGlow 3s ease-in-out infinite;
 }
 
-.name, .email {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.2rem;
+@keyframes titleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.Name, .email input {
+@keyframes titleGlow {
+  0%, 100% { 
+    text-shadow: 
+      0 0 40px rgba(255, 255, 255, 0.3),
+      0 0 80px rgba(255, 255, 255, 0.2),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  50% { 
+    text-shadow: 
+      0 0 60px rgba(255, 255, 255, 0.5),
+      0 0 100px rgba(255, 255, 255, 0.3),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Shimmer effect on title */
+.container-login h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
   width: 100%;
-  padding: 12px 16px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent);
+  animation: titleShimmer 3s ease-in-out infinite;
+}
+
+@keyframes titleShimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 200%; }
+}
+
+/* Input container styling */
+.container-login .name,
+.container-login .email {
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  animation: inputSlideIn 0.6s ease-out backwards;
+}
+
+.container-login .name {
+  animation-delay: 0.2s;
+}
+
+.container-login .email {
+  animation-delay: 0.3s;
+}
+
+@keyframes inputSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Input fields styling */
+.container-login input[type="text"] {
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  background: rgba(40, 40, 40, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.container-login input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+}
+
+.container-login input[type="text"]:focus {
   outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(50, 50, 50, 0.9);
+  box-shadow: 
+    0 0 0 4px rgba(255, 255, 255, 0.05),
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
-.Name:focus, .email input:focus {
-  border-color: #007bff;
+/* Glow effect on focus */
+.container-login input[type="text"]:focus::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.15), 
+    rgba(255, 255, 255, 0.05), 
+    rgba(255, 255, 255, 0.15));
+  border-radius: 14px;
+  z-index: -1;
+  animation: inputGlow 2s ease-in-out infinite;
 }
 
-.Login {
+@keyframes inputGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Login button styling */
+.container-login .Login {
   width: 100%;
-  max-width: 400px;
-  padding: 12px 0;
-  background-color: #007bff;
-  color: white;
+  max-width: 450px;
+  padding: 16px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: #0a0a0a;
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
   border: none;
-  font-size: 1.1rem;
-  border-radius: 6px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 16px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 20px rgba(255, 255, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  animation: buttonSlideIn 0.6s ease-out 0.4s backwards;
 }
 
-.Login:hover {
-  background-color: #0056b3;
+@keyframes buttonSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Ripple effect on button */
+.container-login .Login::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.container-login .Login:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.container-login .Login:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 6px 30px rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.container-login .Login:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Click ripple animation */
+.container-login .Login:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: clickRipple 0.6s ease-out;
+}
+
+@keyframes clickRipple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* Floating orbs in background */
+@keyframes floatingOrbLogin1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, -80px) scale(1.2); }
+}
+
+@keyframes floatingOrbLogin2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, 100px) scale(1.1); }
+}
+
+/* Orb 1 */
+.container-login > .name::before {
+  content: '';
+  position: fixed;
+  top: 15%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatingOrbLogin1 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Orb 2 */
+.container-login > .email::before {
+  content: '';
+  position: fixed;
+  bottom: 15%;
+  left: 10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatingOrbLogin2 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .container-login h1 {
-    font-size: 2rem;
+  .container-login {
+    padding: 30px 20px;
   }
 
-  .Name, .email input, .Login {
-    font-size: 1rem;
-    padding: 10px 14px;
+  .container-login h1 {
+    font-size: 44px;
+    margin-bottom: 40px;
+  }
+
+  .container-login .name,
+  .container-login .email,
+  .container-login .Login {
+    max-width: 100%;
+  }
+
+  .container-login input[type="text"] {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+
+  .container-login .Login {
+    padding: 14px 28px;
   }
 }
 
 @media (max-width: 480px) {
   .container-login h1 {
-    font-size: 1.8rem;
+    font-size: 36px;
+    margin-bottom: 35px;
   }
 
-  .Name, .email input, .Login {
-    font-size: 0.95rem;
-    padding: 10px 12px;
+  .container-login input[type="text"] {
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+
+  .container-login .Login {
+    padding: 13px 24px;
+    font-size: 12px;
+  }
+
+  .container-login .name,
+  .container-login .email {
+    margin-bottom: 20px;
+  }
+}
+
+/* High performance mode */
+@media (prefers-reduced-motion: reduce) {
+  .container-login *,
+  .container-login *::before,
+  .container-login *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
